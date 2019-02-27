@@ -1,4 +1,4 @@
-package tests.Posts;
+package tests.Users;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,29 +6,29 @@ import java.nio.file.Paths;
 import org.testng.annotations.Test;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import classes.Post;
+import classes.User;
 import commons.BaseConfiguration;
-import interfaces.Posts;
+import interfaces.Users;
 import retrofit2.Response;
 import org.testng.Assert;
 
 public class postTest extends BaseConfiguration {
 
-  String jsonPath = "src/test/resources/classes/Post/create-post.json";
+  String jsonPath = "src/test/resources/classes/User/create-user.json";
 
-  @Test(description = "'POST' test for 'Posts' endpoint")
-  public void addNewPostTest() throws JsonSyntaxException, IOException {
+  @Test(description = "'POST' test for 'Users' endpoint")
+  public void addNewUserTest() throws JsonSyntaxException, IOException {
     // Get JSON Data from resources package
-    Post post =
-        new Gson().fromJson(new String(Files.readAllBytes(Paths.get(jsonPath))), Post.class);
+    User user =
+        new Gson().fromJson(new String(Files.readAllBytes(Paths.get(jsonPath))), User.class);
 
     // Create a Retrofit Service with an Interface
-    Posts service = retrofit.create(Posts.class);
+    Users service = retrofit.create(Users.class);
 
     // Make a API call with one of the methods defined in the interface
-    Response<Post> callSync = service.createNewPost(post).execute();
+    Response<User> callSync = service.createNewUser(user).execute();
 
-    String requestJson = new Gson().toJson(post).toString();
+    String requestJson = new Gson().toJson(user).toString();
     String responseJson = new Gson().toJson(callSync.body()).toString();
 
     // Now you can make all assertions that you need in order to test target API functioning

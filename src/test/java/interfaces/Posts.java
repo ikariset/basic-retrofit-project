@@ -15,7 +15,7 @@ public interface Posts {
   public Call<Post> createNewPost(@Body Post post);
   
   @GET("/posts/{postid}")
-  public Call<Post> getPostData(@Path("postid") String postid);
+  public Call<Post> getPostData(@Path("postid") Integer postid);
   
   @GET("/posts/")
   public Call<List<Post>> listPostsData();

@@ -48,16 +48,15 @@ public class BaseConfiguration {
   @AfterMethod(alwaysRun = true)
   public void afterMethodSetup(ITestResult result) throws InterruptedException {
     // Setting Test Status to Extent
-    System.out.println(result.getStatus());
     switch(result.getStatus()) {
       case ITestResult.SUCCESS:
-        test.pass("Test Case PASSED");
+        test.pass("Test Case " + nameClass + " -- PASSED");
         break;
       case ITestResult.FAILURE:
-        test.fail("Test Case FAILED");
+        test.fail("Test Case " + nameClass + " -- FAILED");
         break;
       case ITestResult.SKIP:
-        test.skip("Test Case SKIPPED");
+        test.skip("Test Case " + nameClass + " -- SKIPPED");
         break;
       default:
         test.fail("Result Not Recognized");
@@ -65,11 +64,5 @@ public class BaseConfiguration {
     }    
     
     report.flush();
-    //htrep = new HtmlReport();
-    //int secs = 2;
-    //htrep.generateStep(test, result, "Caso ejecutado " + nameClass);
-    //System.out.println("Test Slowdown between cases(" + secs + " seconds)");
-    //Thread.sleep(secs * 1000);
-    //report.flush();
   }
 }

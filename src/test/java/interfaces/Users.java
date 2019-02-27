@@ -15,7 +15,7 @@ public interface Users {
   public Call<User> createNewUser(@Body User user);
   
   @GET("/users/{userid}")
-  public Call<User> getUserData(@Path("userid") String userid);
+  public Call<User> getUserData(@Path("userid") Integer userid);
   
   @GET("/users/")
   public Call<List<User>> listUserData();
