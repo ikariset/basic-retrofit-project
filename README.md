@@ -36,7 +36,7 @@ If you need a Start-point structured project with all aspects contained in this 
 ### 1.a. Creating a Maven Project
 First at all, you must create a maven project in order to get Retrofit and JSON Management dependencies. In Eclipse IDE, you can do this in File > New... > Other... (or push "Ctrl + N" button combo)
 	
-RF_TUT_01 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+RF_TUT_01 ![Tutorial RF Image 01](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_01.jpg "Tutorial RF Image 01")
 	
 Then, choose "Maven project".
 	
