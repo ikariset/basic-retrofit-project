@@ -3,22 +3,27 @@ _How-To_ -- API-Testing Project Tutorial using Retrofit
 
 Overview
 --------
+
 Retrofit is a type-safe HTTP client for Android and Java – developed by Square (Dagger, Okhttp). It allows synchronous and asynchronous API calls in order to use retrieved information or test the endpoints the API has.
 
 The main goal of this tutorial is to explain how Retrofit could help testing an API, automating the QA process while this API is created. For this purpose, this tutorial will use JSONplaceholder Public API (https://jsonplaceholder.typicode.com/) consuming all the endpoints this API has (for further information of endpoints and response/request structure, please visit the provided website).
 
 If you need a Start-point structured project with all aspects contained in this tutorial, you may check the author's public repository and clone/download his project (https://github.com/ikariset/basic-retrofit-project).
 
+
 ## 0. What do I Need?
+
 - A proper Java IDE, like Eclipse or NetBeans
 - Basic usage of Maven (how to add dependencies to a Maven Project)
 - Basic usage of TestNG (Basic annotations)
+
 	
 ## 1. Installation:
+
 ### 1.a. Creating a Maven Project
 First at all, you must create a maven project in order to get Retrofit and JSON Management dependencies. In Eclipse IDE, you can do this in File > New... > Other... (or push "Ctrl + N" button combo)
 	
-RF_TUT_01
+RF_TUT_01 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 	
 Then, choose "Maven project".
 	
@@ -26,27 +31,30 @@ RF_TUT_02
 	
 If you need to start testing quickly, in this window check "Create a simple project (skip archetype selection)" and click in "Next" button. Otherwise, just click on "Next" button and select your preferred archetype of the displayed list. For this tutorial, a simple Maven Project works well.
 	
-	RF_TUT_03
+RF_TUT_03
 	
-	Define project's Group and Artifact ID of your preference. For this tutorial, "com.retrofitexample" and "tutorialretrofit" is used, respectively, as Group and Artifact ID.
+Define project's Group and Artifact ID of your preference. For this tutorial, "com.retrofitexample" and "tutorialretrofit" is used, respectively, as Group and Artifact ID.
 	
-	RF_TUT_04
+RF_TUT_04
 	
-	-TIP-
-	Now that you have a proper Maven Project, you can choose Java Compiler for this project. For this, right-click in the project folder and go to "properties" option.
+**-TIP-**
+_Now that you have a proper Maven Project, you can choose Java Compiler for this project. For this, right-click in the project folder and go to "properties" option._
 	
-	RF_TUT_05_RCLICK
+RF_TUT_05_RCLICK
 	
-	Now, go to "Java compiler" section and uncheck "Use compliance from execution environment 'XXXX' on the 'Java Build Path'" option. Then, you can select your preferred Java version. Click on "Apply and close" for save those changes (1). Finally, click on "Yes" when rebooting prompt is shown(2).
+Now, go to "Java compiler" section and uncheck "Use compliance from execution environment 'XXXX' on the 'Java Build Path'" option. Then, you can select your preferred Java version. Click on "Apply and close" for save those changes (1). Finally, click on "Yes" when rebooting prompt is shown(2).
 	
-	RF_TUT_05
-	(1)
-	RF_TUT_06
-	(2)
+RF_TUT_05
+**(1)**
+
+RF_TUT_06
+**(2)**
+
 	
-	I.b. Dependencies / POM
-	Retrofit can be added to our maven project as a dependency using maven pom.xml. Plus, you need to add some dependencies for JSON (de)serialization. For this example, used dependencies are as following:
-	
+### 1.b. Dependencies / POM
+
+Retrofit can be added to our maven project as a dependency using maven pom.xml. Plus, you need to add some dependencies for JSON (de)serialization. For this example, used dependencies are as following:
+```xml
   	<dependencies>
 		<dependency>
 		    <groupId>com.squareup.retrofit2</groupId>
@@ -65,33 +73,34 @@ If you need to start testing quickly, in this window check "Create a simple proj
 		    <scope>test</scope>
 		</dependency>
   	</dependencies>
+```
 	
-	-TIP- 
-	If you need to download updated dependencies in your Retrofit API Testing project, take a look from mvnrepository (https://mvnrepository.com/) or Sonatype (https://search.maven.org/) Maven Search and search all packages shown above. 
+**-TIP-** 
+_If you need to download updated dependencies in your Retrofit API Testing project, take a look from mvnrepository (https://mvnrepository.com/) or Sonatype (https://search.maven.org/) Maven Search and search all packages shown above._
 	
-II. Package Structure
+## II. Package Structure
 		
-	The following package structure of tests was proposed in order to support new tests and endpoints, giving to this tutorial project scalability. Also, this structure supports external frameworks if needed.
+The following package structure of tests was proposed in order to support new tests and endpoints, giving to this tutorial project scalability. Also, this structure supports external frameworks if needed.
 	
-	Package description:
+Package description:
 		1. classes: This package contains all the classes used for (de)serialization of JSON, obtained from file source or from API.
 		2. commons: This package contains all common classes used in tests, mainly used for environment configuration.
 		3. interfaces: This package contains all interfaces of all components that API has, defining all available methods (POST, PUT, GET, DELETE,...) and its structure.
 		4. tests: This package contains all established tests in API Testing project, defined by Interfaces.
 	
-	Additional to this, 'src/test/resources/' (5.) contains all JSON used for create new deserialized objects for data storage in API. 
+Additional to this, 'src/test/resources/' (5.) contains all JSON used for create new deserialized objects for data storage in API. 
 	
-	RF_TUT_1_02
+RF_TUT_1_02
 	
-	To create all this packages, right-click on the parent folder (For this tutorial, the parent folder is 'src/test/java') and assign the package name as preferred.
+To create all this packages, right-click on the parent folder (For this tutorial, the parent folder is 'src/test/java') and assign the package name as preferred.
 	
-	RF_TUT_1_01
+RF_TUT_1_01
 	
-III. 'classes' Package: POJO classes creation
+## III. 'classes' Package: POJO classes creation
 
-	POJO classes are used for serialize and/or de-serialize marked texts like JSON or XML. In this tutorial, POJO classes are used with JSON files, stored in 'src/test/resources/classes/{pojo_class}', let 'pojo_class' be the class that use all JSON contained in this subfolder, e.g if 'users' class in 'src/test/java/classes' exists, it must be created a 'users' folder within 'src/test/resources/classes/' and store all JSON files used with the related class.
+POJO classes are used for serialize and/or de-serialize marked texts like JSON or XML. In this tutorial, POJO classes are used with JSON files, stored in 'src/test/resources/classes/{pojo_class}', let 'pojo_class' be the class that use all JSON contained in this subfolder, e.g if 'users' class in 'src/test/java/classes' exists, it must be created a 'users' folder within 'src/test/resources/classes/' and store all JSON files used with the related class.
 	
-	One point to consider is get all JSON used to make request to tested API. For this example, using JSONplaceholder Public API documentation (https://github.com/typicode/jsonplaceholder#Available-resources), object definition for 'users' and 'posts' components are as following:
+One point to consider is get all JSON used to make request to tested API. For this example, using JSONplaceholder Public API documentation (https://github.com/typicode/jsonplaceholder#Available-resources), object definition for 'users' and 'posts' components are as following:
 	
 	users
 	{
