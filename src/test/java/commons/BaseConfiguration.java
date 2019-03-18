@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
@@ -22,10 +23,11 @@ public class BaseConfiguration {
   private static String extentLocation = "target/extent-report/suite.html";
   
   //Reporting
+  String nameClass = "";
+  String description = "";
+  public ExtentTest test;
   ExtentReports report = new ExtentReports();
   ExtentHtmlReporter reporter = new ExtentHtmlReporter(extentLocation);
-  String nameClass = "";
-  public ExtentTest test;
 
   @BeforeMethod(alwaysRun = true)
   public void beforeMethodSetup(Method method) throws Exception {
@@ -40,9 +42,10 @@ public class BaseConfiguration {
     //Creating new Test entry in HTML Report
     nameClass = this.getClass().getName().substring(
         this.getClass().getPackage().getName().length() + 1, this.getClass().getName().length());
+    description = method.getAnnotation(Test.class).description();
     
     report.attachReporter(reporter);
-    test = report.createTest(nameClass);
+    test = report.createTest("Automated Test Case - " + nameClass + " -- " +  description);
   }
 
   @AfterMethod(alwaysRun = true)
