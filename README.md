@@ -1,6 +1,19 @@
 _How-To_ -- API-Testing Project Tutorial using Retrofit
 ========================================================
 
+# Table of Contents
+0. [What do I Need?](#0-what-do-i-need)
+1. [Installation](#1-installation)
+	1. [Creating a Maven Project](#1a-creating-a-maven-project)
+	2. [Dependencies / POM](#1b-dependencies--pom)
+2. [Package Structure](#2-package-structure)
+3. ['classes' Package: POJO classes creation](#3-classes-package-pojo-classes-creation)
+4. ['interfaces' package: setting all endpoints](#4-interfaces-package-setting-all-endpoints)
+	1. [Interfaces structure](#4a-interfaces-structure)
+5. ['tests' package: using all endpoints](#5-tests-package-using-all-endpoints)
+	1. [Creating Base configuration in 'commons package'](#5a-creating-base-configuration-in-commons-package)
+	2. [Creating your first test](#5b-creating-your-first-test)
+
 Overview
 --------
 
@@ -18,7 +31,7 @@ If you need a Start-point structured project with all aspects contained in this 
 - Basic usage of TestNG (Basic annotations)
 
 	
-## 1. Installation:
+## 1. Installation
 
 ### 1.a. Creating a Maven Project
 First at all, you must create a maven project in order to get Retrofit and JSON Management dependencies. In Eclipse IDE, you can do this in File > New... > Other... (or push "Ctrl + N" button combo)
@@ -55,38 +68,38 @@ RF_TUT_06
 
 Retrofit can be added to our maven project as a dependency using maven pom.xml. Plus, you need to add some dependencies for JSON (de)serialization. For this example, used dependencies are as following:
 ```xml
-  	<dependencies>
-		<dependency>
-		    <groupId>com.squareup.retrofit2</groupId>
-		    <artifactId>retrofit</artifactId>
-		    <version>2.5.0</version>
-		</dependency>  
-		<dependency>  
-		    <groupId>com.squareup.retrofit2</groupId>
-		    <artifactId>converter-gson</artifactId>
-		    <version>2.5.0</version>
-		</dependency>
-		<dependency>
-	    	<groupId>org.testng</groupId>
-		    <artifactId>testng</artifactId>
-		    <version>6.14.3</version>
-		    <scope>test</scope>
-		</dependency>
-  	</dependencies>
+<dependencies>
+	<dependency>
+	    <groupId>com.squareup.retrofit2</groupId>
+	    <artifactId>retrofit</artifactId>
+	    <version>2.5.0</version>
+	</dependency>  
+	<dependency>  
+	    <groupId>com.squareup.retrofit2</groupId>
+	    <artifactId>converter-gson</artifactId>
+	    <version>2.5.0</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.testng</groupId>
+	    <artifactId>testng</artifactId>
+	    <version>6.14.3</version>
+	    <scope>test</scope>
+	</dependency>
+</dependencies>
 ```
 	
 **-TIP-** 
 _If you need to download updated dependencies in your Retrofit API Testing project, take a look from mvnrepository (https://mvnrepository.com/) or Sonatype (https://search.maven.org/) Maven Search and search all packages shown above._
 	
-## II. Package Structure
+## 2. Package Structure
 		
 The following package structure of tests was proposed in order to support new tests and endpoints, giving to this tutorial project scalability. Also, this structure supports external frameworks if needed.
 	
 Package description:
-		1. classes: This package contains all the classes used for (de)serialization of JSON, obtained from file source or from API.
-		2. commons: This package contains all common classes used in tests, mainly used for environment configuration.
-		3. interfaces: This package contains all interfaces of all components that API has, defining all available methods (POST, PUT, GET, DELETE,...) and its structure.
-		4. tests: This package contains all established tests in API Testing project, defined by Interfaces.
+1. classes: This package contains all the classes used for (de)serialization of JSON, obtained from file source or from API.
+2. commons: This package contains all common classes used in tests, mainly used for environment configuration.
+3. interfaces: This package contains all interfaces of all components that API has, defining all available methods (POST, PUT, GET, DELETE,...) and its structure.
+4. tests: This package contains all established tests in API Testing project, defined by Interfaces.
 	
 Additional to this, 'src/test/resources/' (5.) contains all JSON used for create new deserialized objects for data storage in API. 
 	
@@ -96,127 +109,129 @@ To create all this packages, right-click on the parent folder (For this tutorial
 	
 RF_TUT_1_01
 	
-## III. 'classes' Package: POJO classes creation
+## 3. 'classes' Package: POJO classes creation
 
 POJO classes are used for serialize and/or de-serialize marked texts like JSON or XML. In this tutorial, POJO classes are used with JSON files, stored in 'src/test/resources/classes/{pojo_class}', let 'pojo_class' be the class that use all JSON contained in this subfolder, e.g if 'users' class in 'src/test/java/classes' exists, it must be created a 'users' folder within 'src/test/resources/classes/' and store all JSON files used with the related class.
 	
 One point to consider is get all JSON used to make request to tested API. For this example, using JSONplaceholder Public API documentation (https://github.com/typicode/jsonplaceholder#Available-resources), object definition for 'users' and 'posts' components are as following:
-	
-	users
-	{
-	  "id": 1,
-	  "name": "Leanne Graham",
-	  "username": "Bret",
-	  "email": "Sincere@april.biz",
-	  "address": {
-		"street": "Kulas Light",
-		"suite": "Apt. 556",
-		"city": "Gwenborough",
-		"zipcode": "92998-3874",
-		"geo": {
-		  "lat": "-37.3159",
-		  "lng": "81.1496"
-		}
-	  },
-	  "phone": "1-770-736-8031 x56442",
-	  "website": "hildegard.org",
-	  "company": {
-		"name": "Romaguera-Crona",
-		"catchPhrase": "Multi-layered client-server neural-net",
-		"bs": "harness real-time e-markets"
-	  }
+
+_For users' Endpoint_
+```js
+{
+  "id": 1,
+  "name": "Leanne Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "address": {
+	"street": "Kulas Light",
+	"suite": "Apt. 556",
+	"city": "Gwenborough",
+	"zipcode": "92998-3874",
+	"geo": {
+	  "lat": "-37.3159",
+	  "lng": "81.1496"
 	}
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "hildegard.org",
+  "company": {
+	"name": "Romaguera-Crona",
+	"catchPhrase": "Multi-layered client-server neural-net",
+	"bs": "harness real-time e-markets"
+  }
+}
+```
+_For posts' Endpoint_
+```js
+{
+  "userId": 1,
+  "id": 1,
+  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+  "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+}
+```
 	
-	posts
-	{
-	  "userId": 1,
-	  "id": 1,
-	  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-	  "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-	}
+RF_TUT_1_03
 	
-	RF_TUT_1_03
+For this task, a quick way to get POJO classes is using 'jsonschema2pojo' website (http://www.jsonschema2pojo.org/). Just access to this page, paste the request JSON for the required component and set up all option as showed on follow image:
 	
-	For this task, a quick way to get POJO classes is using 'jsonschema2pojo' website (http://www.jsonschema2pojo.org/). Just access to this page, paste the request JSON for the required component and set up all option as showed on follow image:
+RF_TUT_1_04
 	
-	RF_TUT_1_04
+To generate all the POJO classes (class hierarchy included), just click on "Preview" or "Zip" buttons. In this tutorial, it'll be useful to click on the second option.
 	
-	To generate all the POJO classes (class hierarchy included), just click on "Preview" or "Zip" buttons. In this tutorial, it'll be useful to click on the second option.
+RF_TUT_1_05
 	
-	RF_TUT_1_05
+**-REMINDER-**
+_Remember to always use names in singular while naming a class, like 'User', 'Post', etc. _
 	
-	-REMINDER- 
-	Remember to always use names in singular while naming a class, like 'User', 'Post', etc. 
-	
-	Now, you need to place all generated classes in your project, in 'classes' package (previously created in II.)
-	
-	>Image Pending
-	
-	Repeat this for all components you need to test in the API.
-	
-	>Image Pending
-	
-	-TIP-
-	If your target API response body is different than the request body (User and Post classes, for this example), you should consider to make a POJO class created with this response aditionally (Using API documentation required) to the request-based ones.
-	
-	
-IV. 'interfaces' package: setting all endpoints
-	
-	The 'interfaces' package, as it described before, contains all services of the available components in an API, using Interfaces to this task. To create an interface, just right-click in 'interface' package and select 'Interface' in 'New' option.
-	
-	RF_TUT_1_06
-	
-	One more time, using JSONplaceholder Public API documentation (https://github.com/typicode/jsonplaceholder#Available-resources) or your API definition documentation, you can get all endpoints has in each components (POST, GET, DELETE,...). 'Users' and 'Posts' endpoints was used in this example project, defining POST and GET Methods in each interface.
-	
-	RF_TUT_1_07
-	
-	IV.a Interfaces structure
-	
-	For all interfaces included in this project, its structure is as following:
-	
-	RF_TUT_1_08
-	
-	'@GET' and '@POST' annotations define method type for each endpoint in current interface (marked in red), being also available other common methods like '@PUT' or '@DELETE'. It exists a general annotation that might be useful in case of less common methods -@HTTP(method = "{method type}", path = "/path/to/endpoint", hasBody = [true|false])- let 'method' be the method type used in the endpoint, 'path' the endpoint path of current endpoint and 'hasBody' a flag that determines body existance in current endpoint.
-	
-	-TIP- The @Headers annotation is useful for define aspects like authentication data, or content-type of body data.
-	
-	All methods in interfaces can get parameters, often used with body data or data identifiers (like User ID, or Post ID), which it has its proper annotations for body data ('@Body' annotation), query filters or identifiers ('@Query' annotation) or path definition ("@Path('{value}')", let 'value' the variable name defined in current endpoint path)
-	
-	Repeat this for all endpoint you need to define in the project.
+Now, you need to place all generated classes in your project, in 'classes' package (previously created in II.)
+
+Repeat this for all components you need to test in the API.
+
+
+**-TIP-**
+_If your target API response body is different than the request body (User and Post classes, for this example), you should consider to make a POJO class created with this response aditionally (Using API documentation required) to the request-based ones._
 	
 	
-V. 'tests' package: using all endpoints
+## 4. 'interfaces' package: setting all endpoints
 	
-	V.a. Creating Base configuration in 'commons package'.
+The 'interfaces' package, as it described before, contains all services of the available components in an API, using Interfaces to this task. To create an interface, just right-click in 'interface' package and select 'Interface' in 'New' option.
 	
-	It's useful to create a class that contains all previous configuration, in order to use it in all test classes as parent class. 'BaseConfiguration.java' is built with TestNG methods and annotations, giving some actions after and before the proper test is running (mainly used for environment and reporting configuration, for this project).
+RF_TUT_1_06
 	
-	Basic structure of TestNG tests are defined with annotations in order like @AfterMethod --> @Test --> @BeforeMethod. Its exists more annotations focused on Test Groups and other steps, but for this example's purpose only the previously defined ones will be used. Then, 'BasicConfiguration' is created as following image shows:
+One more time, using JSONplaceholder Public API documentation (https://github.com/typicode/jsonplaceholder#Available-resources) or your API definition documentation, you can get all endpoints has in each components (POST, GET, DELETE,...). 'Users' and 'Posts' endpoints was used in this example project, defining POST and GET Methods in each interface.
 	
-	RF_TUT_2_01 to RF_TUT_2_03
+RF_TUT_1_07
 	
-	As you can see, BaseConfiguration attributes store API URL, ExtentReport suite location (Relative Path is preferred) and creation data, making easy to change this for all test cases, if it's needed (1).
+### 4.a Interfaces structure
 	
-	@AfterMethod was used for set up environment and report tools with data previously stored in attributes (2), and @BeforeMethod was used for store result from test in report previously initialized (3).
+For all interfaces included in this project, its structure is as following:
+	
+RF_TUT_1_08
+	
+'@GET' and '@POST' annotations define method type for each endpoint in current interface (marked in red), being also available other common methods like '@PUT' or '@DELETE'. It exists a general annotation that might be useful in case of less common methods -@HTTP(method = "{method type}", path = "/path/to/endpoint", hasBody = [true|false])- let 'method' be the method type used in the endpoint, 'path' the endpoint path of current endpoint and 'hasBody' a flag that determines body existance in current endpoint.
+	
+**-TIP-** 
+_The @Headers annotation is useful for define aspects like authentication data, or content-type of body data._
+	
+All methods in interfaces can get parameters, often used with body data or data identifiers (like User ID, or Post ID), which it has its proper annotations for body data ('@Body' annotation), query filters or identifiers ('@Query' annotation) or path definition ("@Path('{value}')", let 'value' the variable name defined in current endpoint path)
+	
+Repeat this for all endpoint you need to define in the project.
 	
 	
-	V.b Creating your first test.
+## 5. 'tests' package: using all endpoints
 	
-	If you follow this tutorial at this point, you would be capable of create all test cases you need to. Test case basic structure follows same steps between them, described as: 
+### 5.a. Creating Base configuration in 'commons package'.
 	
-		1. Get JSON data (stored in 'Request' package) and de-serialize it in its proper POJO class (Optional step, only if needed to send data).
-		2. Create the 'retrofit' service implementing an interface stored in 'interface' package.
-		3. Invoke a method from the service that call an endpoint in target API.
-		4. Make Assertions using the API response as needed.
+It's useful to create a class that contains all previous configuration, in order to use it in all test classes as parent class. 'BaseConfiguration.java' is built with TestNG methods and annotations, giving some actions after and before the proper test is running (mainly used for environment and reporting configuration, for this project).
+	
+Basic structure of TestNG tests are defined with annotations in order like @AfterMethod --> @Test --> @BeforeMethod. Its exists more annotations focused on Test Groups and other steps, but for this example's purpose only the previously defined ones will be used. Then, 'BasicConfiguration' is created as following image shows:
+	
+RF_TUT_2_01 to RF_TUT_2_03
+	
+As you can see, BaseConfiguration attributes store API URL, ExtentReport suite location (Relative Path is preferred) and creation data, making easy to change this for all test cases, if it's needed (1).
+	
+@AfterMethod was used for set up environment and report tools with data previously stored in attributes (2), and @BeforeMethod was used for store result from test in report previously initialized (3).
+	
+	
+### 5.b Creating your first test
+	
+If you follow this tutorial at this point, you would be capable of create all test cases you need to. Test case basic structure follows same steps between them, described as: 
+	
+1. Get JSON data (stored in 'Request' package) and de-serialize it in its proper POJO class (Optional step, only if needed to send data).
+2. Create the 'retrofit' service implementing an interface stored in 'interface' package.
+3. Invoke a method from the service that call an endpoint in target API.
+4. Make Assertions using the API response as needed.
 		
-	Following image shows the previously described structure with more details, using proper methods from interfaces and classes previously created.
+Following image shows the previously described structure with more details, using proper methods from interfaces and classes previously created.
 	
-	RF_TUT_2_04
+RF_TUT_2_04
+
+**-REMINDER-** 
+_Keep an eye to the "extends" distinction assigning to 'BaseConfiguration' as parent class, in order to get all environment and extentreport configuration (as abroaded on chapter V.a)._
 	
-	-REMINDER- Keep an eye to the "extends" distinction assigning to 'BaseConfiguration' as parent class, in order to get all environment and extentreport configuration (as abroaded on chapter V.a).
+If you could create and run a test successfully, you possibly will get a new folder in your project folder with the ExtentReport. In this example, this folder is created in 'target' folder, called 'extent-report' (this can be defined in 'BaseConfiguration', changing 'extentLocation' attribute).
 	
-	If you could create and run a test successfully, you possibly will get a new folder in your project folder with the ExtentReport. In this example, this folder is created in 'target' folder, called 'extent-report' (this can be defined in 'BaseConfiguration', changing 'extentLocation' attribute).
+**DONE!**
 	
-	DONE!
-	
-	At this moment, you can create all other Test Cases in order to verify the target API features works good, as needed to.
+At this moment, you can create all other Test Cases in order to verify the target API features works good, as needed to.
