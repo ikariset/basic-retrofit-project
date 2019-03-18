@@ -36,31 +36,32 @@ If you need a Start-point structured project with all aspects contained in this 
 ### 1.a. Creating a Maven Project
 First at all, you must create a maven project in order to get Retrofit and JSON Management dependencies. In Eclipse IDE, you can do this in File > New... > Other... (or push "Ctrl + N" button combo)
 	
-RF_TUT_01 ![Tutorial RF Image 01](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_01.jpg "Tutorial RF Image 01")
+![Tutorial RF Image 01](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_01.jpg "Tutorial RF Image 01")
 	
 Then, choose "Maven project".
-	
-RF_TUT_02
+
+![Tutorial RF Image 02](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_02.jpg "Tutorial RF Image 02")	
+
 	
 If you need to start testing quickly, in this window check "Create a simple project (skip archetype selection)" and click in "Next" button. Otherwise, just click on "Next" button and select your preferred archetype of the displayed list. For this tutorial, a simple Maven Project works well.
 	
-RF_TUT_03
+![Tutorial RF Image 03](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_03.jpg "Tutorial RF Image 03")
 	
 Define project's Group and Artifact ID of your preference. For this tutorial, "com.retrofitexample" and "tutorialretrofit" is used, respectively, as Group and Artifact ID.
 	
-RF_TUT_04
+![Tutorial RF Image 04](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_04.jpg "Tutorial RF Image 04")
 	
 **-TIP-**
 _Now that you have a proper Maven Project, you can choose Java Compiler for this project. For this, right-click in the project folder and go to "properties" option._
 	
-RF_TUT_05_RCLICK
+![Tutorial RF Image 05a](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_05_RCLICK.jpg "Tutorial RF Image 05a")
 	
 Now, go to "Java compiler" section and uncheck "Use compliance from execution environment 'XXXX' on the 'Java Build Path'" option. Then, you can select your preferred Java version. Click on "Apply and close" for save those changes (1). Finally, click on "Yes" when rebooting prompt is shown(2).
 	
-RF_TUT_05
+![Tutorial RF Image 05](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_05.jpg "Tutorial RF Image 05")
 **(1)**
 
-RF_TUT_06
+![Tutorial RF Image 06](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_06.jpg "Tutorial RF Image 06")
 **(2)**
 
 	
@@ -96,18 +97,18 @@ _If you need to download updated dependencies in your Retrofit API Testing proje
 The following package structure of tests was proposed in order to support new tests and endpoints, giving to this tutorial project scalability. Also, this structure supports external frameworks if needed.
 	
 Package description:
-1. classes: This package contains all the classes used for (de)serialization of JSON, obtained from file source or from API.
-2. commons: This package contains all common classes used in tests, mainly used for environment configuration.
-3. interfaces: This package contains all interfaces of all components that API has, defining all available methods (POST, PUT, GET, DELETE,...) and its structure.
-4. tests: This package contains all established tests in API Testing project, defined by Interfaces.
+1. **classes:** This package contains all the classes used for (de)serialization of JSON, obtained from file source or from API.
+2. **commons:** This package contains all common classes used in tests, mainly used for environment configuration.
+3. **interfaces:** This package contains all interfaces of all components that API has, defining all available methods (POST, PUT, GET, DELETE,...) and its structure.
+4. **tests:** This package contains all established tests in API Testing project, defined by Interfaces.
 	
-Additional to this, 'src/test/resources/' (5.) contains all JSON used for create new deserialized objects for data storage in API. 
+Additional to this, **'src/test/resources/'** (5.) contains all JSON used for create new deserialized objects for data storage in API. 
 	
-RF_TUT_1_02
+![Tutorial RF Image 1-02](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_02.jpg "Tutorial RF Image 1-02")
 	
 To create all this packages, right-click on the parent folder (For this tutorial, the parent folder is 'src/test/java') and assign the package name as preferred.
 	
-RF_TUT_1_01
+![Tutorial RF Image 1-01](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_01.jpg "Tutorial RF Image 1-01")
 	
 ## 3. 'classes' Package: POJO classes creation
 
@@ -151,15 +152,15 @@ _For posts' Endpoint_
 }
 ```
 	
-RF_TUT_1_03
+![Tutorial RF Image 1-03](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_03.jpg "Tutorial RF Image 1-03")
 	
 For this task, a quick way to get POJO classes is using 'jsonschema2pojo' website (http://www.jsonschema2pojo.org/). Just access to this page, paste the request JSON for the required component and set up all option as showed on follow image:
 	
-RF_TUT_1_04
+![Tutorial RF Image 1-04](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_04.jpg "Tutorial RF Image 1-04")
 	
 To generate all the POJO classes (class hierarchy included), just click on "Preview" or "Zip" buttons. In this tutorial, it'll be useful to click on the second option.
 	
-RF_TUT_1_05
+![Tutorial RF Image 1-05](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_05.jpg "Tutorial RF Image 1-05")
 	
 **-REMINDER-**
 _Remember to always use names in singular while naming a class, like 'User', 'Post', etc. _
@@ -177,17 +178,17 @@ _If your target API response body is different than the request body (User and P
 	
 The 'interfaces' package, as it described before, contains all services of the available components in an API, using Interfaces to this task. To create an interface, just right-click in 'interface' package and select 'Interface' in 'New' option.
 	
-RF_TUT_1_06
+![Tutorial RF Image 1-06](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_06.jpg "Tutorial RF Image 1-06")
 	
 One more time, using JSONplaceholder Public API documentation (https://github.com/typicode/jsonplaceholder#Available-resources) or your API definition documentation, you can get all endpoints has in each components (POST, GET, DELETE,...). 'Users' and 'Posts' endpoints was used in this example project, defining POST and GET Methods in each interface.
 	
-RF_TUT_1_07
+![Tutorial RF Image 1-07](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_07.jpg "Tutorial RF Image 1-07")
 	
 ### 4.a Interfaces structure
 	
 For all interfaces included in this project, its structure is as following:
 	
-RF_TUT_1_08
+![Tutorial RF Image 1-08](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_1_08.jpg "Tutorial RF Image 1-08")
 	
 '@GET' and '@POST' annotations define method type for each endpoint in current interface (marked in red), being also available other common methods like '@PUT' or '@DELETE'. It exists a general annotation that might be useful in case of less common methods -@HTTP(method = "{method type}", path = "/path/to/endpoint", hasBody = [true|false])- let 'method' be the method type used in the endpoint, 'path' the endpoint path of current endpoint and 'hasBody' a flag that determines body existance in current endpoint.
 	
@@ -207,7 +208,11 @@ It's useful to create a class that contains all previous configuration, in order
 	
 Basic structure of TestNG tests are defined with annotations in order like @AfterMethod --> @Test --> @BeforeMethod. Its exists more annotations focused on Test Groups and other steps, but for this example's purpose only the previously defined ones will be used. Then, 'BasicConfiguration' is created as following image shows:
 	
-RF_TUT_2_01 to RF_TUT_2_03
+![Tutorial RF Image 2-01](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_2_01.jpg "Tutorial RF Image 2-01")
+
+![Tutorial RF Image 2-02](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_2_02.jpg "Tutorial RF Image 2-02")
+
+![Tutorial RF Image 2-03](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_2_03.jpg "Tutorial RF Image 2-03")
 	
 As you can see, BaseConfiguration attributes store API URL, ExtentReport suite location (Relative Path is preferred) and creation data, making easy to change this for all test cases, if it's needed (1).
 	
@@ -225,7 +230,7 @@ If you follow this tutorial at this point, you would be capable of create all te
 		
 Following image shows the previously described structure with more details, using proper methods from interfaces and classes previously created.
 	
-RF_TUT_2_04
+![Tutorial RF Image 2-04](https://github.com/ikariset/basic-retrofit-project/blob/master/img_tutorial/RF_TUT_2_04.jpg "Tutorial RF Image 2-04")
 
 **-REMINDER-** 
 _Keep an eye to the "extends" distinction assigning to 'BaseConfiguration' as parent class, in order to get all environment and extentreport configuration (as abroaded on chapter V.a)._
